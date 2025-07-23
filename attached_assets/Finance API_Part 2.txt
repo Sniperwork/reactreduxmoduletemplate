@@ -1,0 +1,175 @@
+Return values:
+
+owner : The genesis hash of the profile that owns this account.
+
+version : The serialization version of the transaction.
+
+created : The UNIX timestamp when the account was created.
+
+modified : The UNIX timestamp when the account was last modified.
+
+type : The type of register. Can be OBJECT, RAW or READONLY.
+
+balance : The available balance of this account. This is the last confirmed balance less any new debits that you have made since the last block
+
+stake : Only returned for the trust account, this is the amount of NXS currently staked in the trust account.
+
+decimals : The maximum number of decimal places that can be applied to token amounts. For example decimals=2 will allow a token amount to be given to 2 decimal places.
+
+currentsupply : The current amount of tokens that have been distributed to token accounts.
+
+maxsupply : The maximum token supply amount.
+
+token : The register address of the token. Set to 0 for NXS accounts.
+
+ticker : The name of the token. For NXS accounts will show NXS.
+
+trust : The current raw trust score of the trust account.
+
+age : The age of the trust account in days, hours and minutes.
+
+rate : The current annual reward rate earned for staking as an annual percent.
+
+address : The register address of the account, trust or token.
+list
+
+This will list off all of the object register details specified by the noun.
+
+finance/list/noun
+
+This command supports the account, trust and token nouns.
+list/account
+
+This lists all the NXS and token accounts, except the trust account for the logged in user.
+list/trust
+
+This lists the trust account for the logged in user.
+list/token
+
+This lists all the token addresses for the logged in user.
+Parameters:
+
+session : Required by argument -multiuser=1 to be supplied to identify the user session. For single-user API mode the session should not be supplied.
+
+where : An array of clauses to filter the JSON results. More information on filtering the results from /list/xxx API methods can be found at Queries.
+
+Sorting.
+
+Filtering.
+
+Operators.
+Results:
+Return value JSON object:
+
+[
+    {
+        "owner": "b7fa11647c02a3a65a72970d8e703d8804eb127c7e7c41d565c3514a4d3fdf13",
+        "version": 1,
+        "created": 1654808816,
+        "modified": 1655061950,
+        "type": "OBJECT",
+        "balance": 5998.0,
+        "decimals": 2,
+        "currentsupply": 4002.0,
+        "maxsupply": 10000.0,
+        "token": "8DXmAmkTtysSZUxM3ePA8wRmbSUofuHKSoCyDpN28aLuSrm1nDG",
+        "ticker": "XYZ",
+        "address": "8DXmAmkTtysSZUxM3ePA8wRmbSUofuHKSoCyDpN28aLuSrm1nDG"
+    }
+]
+[Completed in 0.473708 ms]
+
+Return values:
+
+owner : The genesis hash of the profile that owns this account.
+
+version : The serialization version of the transaction.
+
+created : The UNIX timestamp when the account was created.
+
+modified : The UNIX timestamp when the account was last modified.
+
+type : The type of register. Can be OBJECT, RAW or READONLY.
+
+balance : The available balance of this account. This is the last confirmed balance less any new debits that you have made since the last block
+
+stake : Only returned for the trust account, this is the amount of NXS currently staked in the trust account.
+
+decimals : The maximum number of decimal places that can be applied to token amounts. For example decimals=2 will allow a token amount to be given to 2 decimal places.
+
+currentsupply : The current amount of tokens that have been distributed to token accounts.
+
+maxsupply : The maximum token supply amount.
+
+token : The register address of the token. Set to 0 for NXS accounts.
+
+ticker : The name of the token. For NXS accounts will show NXS.
+
+trust : The current raw trust score of the trust account.
+
+age : The age of the trust account in days, hours and minutes.
+
+rate : The current annual reward rate earned for staking as an annual percent.
+
+address : The register address of the account, trust or token.
+history
+
+This will get the history of the specified noun.
+
+finance/history/noun
+
+This command supports the account, trust and token nouns.
+history/account
+
+This lists all the NXS except 'trust and token accounts for the logged in user.
+history/trust
+
+This lists the trust account for the logged in user.
+history/token
+
+This lists all the token addresses for the logged in user.
+Parameters:
+
+session : Required by argument -multiuser=1 to be supplied to identify the user session. For single-user API mode the session should not be supplied.
+
+name : Required to identify the name of the account / trust / token. This is optional if the address is provided.
+
+address : Required to identify the register address of the account / trust / token. This is optional if the name is provided.
+
+Sorting.
+
+Filtering.
+
+Operators.
+Results:
+Return value JSON object:
+
+[
+    {
+        "owner": "b7fa11647c02a3a65a72970d8e703d8804eb127c7e7c41d565c3514a4d3fdf13",
+        "version": 1,
+        "created": 1654808903,
+        "modified": 1654809207,
+        "type": "OBJECT",
+        "balance": 1000.0,
+        "token": "8DXmAmkTtysSZUxM3ePA8wRmbSUofuHKSoCyDpN28aLuSrm1nDG",
+        "ticker": "XYZ",
+        "address": "8Bk5PxsecfXWpbHsDXeZ47MCgDF7qDLsU4Y4MJw2VB29LsTR98z",
+        "name": "local:XYZToken",
+        "action": "CREDIT"
+    },
+    {
+        "owner": "b7fa11647c02a3a65a72970d8e703d8804eb127c7e7c41d565c3514a4d3fdf13",
+        "version": 1,
+        "created": 1654808903,
+        "modified": 1654808903,
+        "type": "OBJECT",
+        "balance": 0.0,
+        "token": "8DXmAmkTtysSZUxM3ePA8wRmbSUofuHKSoCyDpN28aLuSrm1nDG",
+        "ticker": "XYZ",
+        "address": "8Bk5PxsecfXWpbHsDXeZ47MCgDF7qDLsU4Y4MJw2VB29LsTR98z",
+        "name": "local:XYZToken",
+        "action": "CREATE"
+    }
+]
+

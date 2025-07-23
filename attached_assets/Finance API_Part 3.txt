@@ -1,0 +1,223 @@
+transactions
+
+This will list off all of the transactions for the specified noun.
+
+finance/transactions/noun
+
+This command supports the account, trust and token nouns.
+transactions/account
+
+List out all the transactions for the NXS account or token account.
+transactions/trust
+
+List out all the transactions for the trust account
+transactions/token
+
+List out all the transactions for the token address.
+Parameters:
+
+session : Required by argument -multiuser=1 to be supplied to identify the user session. For single-user API mode the session should not be supplied.
+
+verbose : Optional, determines how much transaction data to include in the response. Supported values are :
+
+    default : hash.
+
+    summary : type, version, sequence, timestamp, operation, and confirmations.
+
+    detail : genesis, nexthash, prevhash, pubkey and signature.
+
+Sorting.
+
+Filtering.
+
+Operators.
+Results:
+Return value JSON object:
+
+[
+    {
+        "txid": "0123517ca0f1ca110c7b07de9e3c9b33ccbe717f96911e1449b7c73bb9695fbc9c14a58f01f5fb7e9b64756f658af91daec9f0f579df2fad8df61843defae833",
+        "type": "tritium user",
+        "version": 4,
+        "sequence": 23,
+        "timestamp": 1655061950,
+        "blockhash": "8b206ab2ee4b46a835f74af0ff5d4e0b395acdb94d66468a24083f2a5fd01a07a93956774001bab1a801d53d7bf6ed60ee84a573650eef1a9feaf6fa9beb308bd20b567663cc7ec4f85796b261164ef3452ebfaa13a60141b42fc49d6d2eb2792440925b1b19248ad9fe65e01d3742f2d3dec2817c56c8e4f6e03a10f4147308",
+        "confirmations": 4,
+        "contracts": [
+            {
+                "id": 0,
+                "OP": "DEBIT",
+                "from": "8DXmAmkTtysSZUxM3ePA8wRmbSUofuHKSoCyDpN28aLuSrm1nDG",
+                "to": "8Bk5PxsecfXWpbHsDXeZ47MCgDF7qDLsU4Y4MJw2VB29LsTR98z",
+                "amount": 1.0,
+                "token": "8DXmAmkTtysSZUxM3ePA8wRmbSUofuHKSoCyDpN28aLuSrm1nDG",
+                "ticker": "XYZ",
+                "reference": 57891358795
+            }
+        ]
+    },
+    {
+        "txid": "01f1a3f9227a69382f9811a5b1497a865ace17ad83b03118b24f875f6ade83117887c35d08375c259aa1076b91f42206110314756a11a943760bb5c0dd0523d7",
+        "type": "tritium user",
+        "version": 4,
+        "sequence": 21,
+        "timestamp": 1655060214,
+        "blockhash": "048f3b308e8bd8c1aa31ec1ec2e136a9ccc91ec4498283d07fc5d0a00c8576e2c199567a44058222961f474626c6f2c5d7e774eee34c34f98acafaeb50b7abaaade7e9c641fe9727fe62533b1ec6bf2f75ffbf19d17d74671e2458bd73b6407b4bba1951fc84e1af11c2c4fbce1d05d7739e910fdb8a37197c1c422521e2e9f3",
+        "confirmations": 6,
+        "contracts": [
+            {
+                "id": 0,
+                "OP": "DEBIT",
+                "from": "8DXmAmkTtysSZUxM3ePA8wRmbSUofuHKSoCyDpN28aLuSrm1nDG",
+                "to": "8Bk5PxsecfXWpbHsDXeZ47MCgDF7qDLsU4Y4MJw2VB29LsTR98z",
+                "amount": 1.0,
+                "token": "8DXmAmkTtysSZUxM3ePA8wRmbSUofuHKSoCyDpN28aLuSrm1nDG",
+                "ticker": "XYZ",
+                "reference": 0
+            }
+        ]
+    }
+]
+[Completed in 2.187165 ms]
+
+get/balances
+
+This will retrieve a summary of balance information across all accounts belonging to the currently logged in profile.
+
+Endpoint:
+
+finance/get/balances
+
+Parameters:
+
+session : Required by argument -multiuser=1 to be supplied to identify the user session. For single-user API mode the session should not be supplied.
+
+Filtering.
+Results:
+Return value JSON object:
+
+[
+    {
+        "available": 1573155.354522,
+        "unclaimed": 0.0,
+        "unconfirmed": 0.0,
+        "decimals": 6,
+        "token": "0",
+        "ticker": "NXS",
+        "stake": 15000.0,
+        "immature": 0.0
+    },
+    {
+        "available": 10000.0,
+        "unclaimed": 0.0,
+        "unconfirmed": 0.0,
+        "decimals": 2,
+        "token": "8E61JVQENSGtFsr3ivscvC77Tvr3oLm8Zqnw3K4H4vbbTUBeGqW",
+        "ticker": "NEX"
+    }
+]
+get/stakeinfo
+
+This will retrieve account values and staking metrics for the trust account belonging to the currently logged in signature chain. If called when the stake minter is not running, this method only returns trust account values. Staking metrics will return 0.
+
+Endpoint:
+
+finance/get/stakeinfo
+
+Parameters:
+
+session : Required by argument -multiuser=1 to be supplied to identify the user session. For single-user API mode the session should not be supplied.
+
+Filtering.
+Results:
+Return value JSON object:
+
+{
+    "address": "8EunQ82qVdnuQkX2gXKZr5P55kQRz4KbpaLdCVBjBNu8jeys4C4",
+    "balance": 337.362522,
+    "stake": 15000.0,
+    "trust": 338495,
+    "onhold": false,
+    "stakerate": 1.8052413746600344,
+    "trustweight": 53.440432749937834,
+    "blockweight": 15.358176013767272,
+    "stakeweight": 49.63220707632078,
+    "staking": true,
+    "change": false
+}
+set/stake
+
+Creates a stake change request for a profile's trust account. This request will add or remove stake to set the stake value to the requested amount. If the new value is more than the current stake amount, it adds stake from the account balance. If the new value is less, it removes stake to the account balance (with appropriate trust penalty, if applicable). Requests are saved locally and take effect with the next stake block found by staking the profiles's trust account. Because they are saved locally, you must continue to stake on the machine where it was created until the next stake block is found, or the request will not be processed. To remove a stake change request, you can either set an expiration time, or set the amount equal to the current trust account stake.
+
+Endpoint:
+
+finance/set/stake
+
+Parameters:
+
+pin : Required if locked. The PIN for this profile.
+
+session : Required by argument -multiuser=1 to be supplied to identify the user session. For single-user API mode the session should not be supplied.
+
+amount : Required the new amount of NXS to stake.
+
+expires : Optional field to assign the number of seconds until the stake change request expires. A value of zero indicates it does not expire. Default is zero if not passed.
+Results:
+Return value JSON object:
+
+{
+    "txid": "318b86d2c208618aaa13946a3b75f14472ebc0cce9e659f2830b17e854984b55606738f689d886800f21ffee68a3e5fd5a29818e88f8c5b13b9f8ae67739903d"
+}
+
+void/transaction
+
+Voids (reverses) a debit or transfer transaction, only if it has not been credited or claimed by the recipient. The method creates a corresponding credit or claim transaction but back to the originating account / profile. finance/void/transaction
+
+Parameters:
+
+pin : Required if locked. The PIN for this profile.
+
+session : Required by argument -multiuser=1 to be supplied to identify the user session. For single-user API mode the session should not be supplied.
+
+txid : The transaction ID (hash) of the debit or transfer transaction that you wish to void.
+Results:
+Return value JSON object:
+
+{
+    "hash": "47959e245f45aab773c0ce5320a5454f49ac15f63e15acb36855ac654d54d6314fe36b61dd64ec7a9a546bcc439a628e9badcdccb6e5f8072d04a0a3b67f8679"
+}
+
+migrate/accounts
+
+This method will migrate your legacy accounts to signature chain accounts, sending the balance across in the process. A new account will be created in your signature chain for each legacy account, with a corresponding matching name (unless flagged not to create names). The balance of each legacy account is sent to the newly created signature chain account in individual transactions. As such, each transaction incurs the default legacy fee of 0.01 NXS, which is deducted from the amount being migrated.
+
+Endpoint:
+
+finance/migrate/accounts
+
+Parameters:
+
+pin : Required if locked. The PIN for this profile.
+
+session : Required by argument -multiuser=1 to be supplied to identify the user session. For single-user API mode the session should not be supplied.
+
+walletpassphrase : Optional field to provide the wallet passphrase. This value is required if the wallet is not currently unlocked.
+
+createname : Optional boolean field indicating whether to create a Name record for the newly created signature chain accounts. If omitted, the default behaviour is to create a Name record, which incurs a fee of 1 NXS per account.
+Results:
+Return value JSON object:
+
+[
+    {
+        "account": "default",
+        "address": "8BzPhYgcHAP26CYnCvHTQmPiBH7FBC2PAB4rR9YgWxcK7L4c46X",
+        "amount": 44.9,
+        "txid": "022fed45add52c82110411c703c070519ef1136f3fe401def06a9fe29b0fe378935f17c3846c8824410e197f1caea2aat…
+    },
+    {
+        "account": "test1",
+        "address": "8CEwJUPAkQQuBbAoQtiiswwk38ASuUZ63JQ2yLakV2cEXPbsmsd",
+        "amount": 1.0,
+        "txid": "02b88a4a9972aafdf09461bd976617162b8f8df853f46a5e0d98d608b987d5d52a3cb67c3861e6b47b65721d83b4b47c…
+    }
+]

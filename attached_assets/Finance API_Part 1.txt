@@ -1,0 +1,234 @@
+Finance API
+
+The Finance API provides methods for sending and receiving NXS or other tokens between users / accounts, creating accounts, and managing staking. The full supported endpoint of the finance URI is as follows:
+
+finance/verb/noun/filter/operator
+
+The minimum required components of the URI are:
+
+finance/verb/noun
+
+Supported Verbs
+
+The following verbs are currently supported by this API command-set:
+
+burn - Remove a given token from circulation.
+create - Generate a new object of supported type.
+credit - Claim funds issued to account from debit.
+debit - Issue funds from supported type.
+get - Get object of supported type.
+list - List all objects owned by given user.
+history - Generate the history of all last states.
+transactions - List all transactions that modified specified object.
+Supported Nouns
+
+The following nouns are supported for this API command-set:
+
+[account] - An object register containing a token-id and balance.
+[trust] - An object register containing a token-id, balance, and trust.
+[token] - An object register containing a token-id, balance, supply, and decimals.
+[any] - An object selection noun allowing mixed accounts of different tokens.
+[all] - An object selection noun to collect all accounts for given token type.
+Direct Endpoints
+
+The following commands are direct endpoints and thus do not support the above verb and noun structure available above.
+
+get/balances
+get/stakeinfo
+set/stake
+void/transaction
+migrate/accounts
+
+Direct endpoints support filters and operators.
+create
+
+Create a new object register specified by given noun.
+
+finance/create/noun
+
+This command does not support the any or all nouns.
+Parameters:
+
+pin : Required if locked. The PIN for this profile.
+
+session : Required by argument -multiuser=1 to be supplied to identify the user session. For single-user API mode the session should not be supplied.
+
+name : Optional for noun name as a UTF-8 encoded string that will generate a name object register that points to new object. If noun is token this will be created as a global name.
+
+data : Optional for any noun, allows caller to add arbitrary data to object.
+create/token
+
+supply : Required by noun token that sets the maximum token supply.
+
+decimals : Required by noun token that sets the total number of significant figures. Defaults to 2.
+create/account
+
+token : Required by noun account as a Base58 encoded address or ticker name. Defaults to NXS.
+Results:
+Return value JSON object:
+
+{
+    "success": true,
+    "address": "8ESvYizqdApiuKEBjZMF1hnB8asDqECaDwAstcH3UtJ4Z6ceCn2",
+    "txid": "0131e17af8029b414814283a3d90813d12c238db6ddab213440249b795090a9cd77079d5804ec38303a59414d87108d4e44bf31f54a6c176285281a88ab5d737"
+}
+
+Return values:
+
+txid : The hash of the transaction that was generated for this tx. If using -autotx this field will be ommitted.
+
+address : The register address for this account. The address (or name that hashes to this address) is needed when creating crediting or debiting the account.
+debit
+
+Deduct an amount of NXS or token specified by the noun and send it to another account or legacy UTXO address. Only NXS can be sent to the legacy address.
+
+finance/debit/noun
+
+This command supports the any wildcard noun.
+debit/account
+
+This deducts an amount of NXS or tokens from a token account or token address to be sent to a receiving account.
+debit/token
+
+This deducts an amount of tokens from a token address to send to a token account
+Parameters:
+
+pin : Required if locked. The PIN for this profile.
+
+session : Required by argument -multiuser=1 to be supplied to identify the user session. For single-user API mode the session should not be supplied.
+
+from : Required to identify the account to debit, this can be the name or the register address. The name should be in the format name (for global token names), username:name (for local names) or namespace::name (for names in a namespace).
+
+amount : The amount of NXS or token to debit.
+
+to : Required to identify the receiving account. This can be the account name or the register address. The name should be in the format username:name (for local names) or namespace::name (for names in a namespace). The address_to can also contain a legacy UTXO address if sending from a signature chain account to a legacy address.
+
+reference : Optional field allows callers to provide a reference, which the recipient can then use to relate the transaction to an order number, invoice number etc. The reference is be a 64-bit unsigned integer in the range of 0 to 18446744073709551615.
+expires : Optional field allows callers to specify an expiration for the debit transaction. The expires value is the number of seconds from the transaction creation time after which the transaction can no longer be credited by the recipient. Conversely, when you apply an expiration to a transaction, you are unable to void the transaction until after the expiration time. If expires is set to 0, the transaction will never expire, making the sender unable to ever void the transaction. If omitted, a default expiration of 7 days (604800 seconds) is applied.
+Results:
+Return value JSON object:
+
+{
+    "success": true,
+    "txid": "01f51d6b23b871fc8da848afa57cf066cb9e3b8fb845a666335e8c678ef5249e98d4f3e477659098918e4bb590472a63d0ed0a17fa87904fcff6316158e9edfd"
+}
+
+Return values:
+
+success : Boolean flag indicating that the debit was successful.
+
+txid : The ID (hash) of the transaction that includes the debit.
+credit
+
+Create a new object register specified by given noun.
+
+finance/credit/noun
+
+This command supports the any wildcard noun.
+credit/account
+
+Increment an amount received from a NXS account, token account or token address.
+credit/token
+
+Increment an amount of tokens received from a token account.
+Parameters:
+
+pin : Required if locked. The PIN for this profile.
+
+session : Required by argument -multiuser=1 to be supplied to identify the user session. For single-user API mode the session should not be supplied.
+
+txid : The hash in hexadecimal encoding of the transaction that we are crediting.
+Results:
+Return value JSON object:
+
+{  
+    "success": true,  
+    "txid": "01f51d6b23b871fc8da848afa57cf066cb9e3b8fb845a666335e8c678ef5249e98d4f3e477659098918e4bb590472a63d0ed0a17fa87904fcff6316158e9edfd"  
+}
+
+Return values:
+
+txid : The ID (hash) of the transaction that includes the account creation.
+
+address : The register address for this account. The address (or name that hashes to this address) is needed when creating crediting or debiting the account.
+burn
+
+This method can be used to take tokens permanently out of the current supply, a process commonly known as burning. The method will debit a token account and send the tokens back to the token address. However the transaction contains a condition that will always evaluate to false, guaranteeing that the debit can not be credited by the token issuer nor the sender. The result is that the amount burned will always appear in the "pending" balance of the token.
+
+finance/burn/noun
+
+This command only supports the account noun.
+Parameters:
+
+pin : Required if locked. The PIN to authorize the transaction.
+
+session : Required by argument -multiuser=1 to be supplied to identify the user session. For single-user API mode the session should not be supplied.
+
+name : Required to identify the name of account to debit the tokens from to be burnt. The name should be in the format username:name (for local names) or namespace::name (for names in a namespace). This is optional if the address is provided
+
+address : Required to identify the register address of the account to debit the tokens from the be burnt. This is optional if the name is provided.
+
+amount : Required the amount of tokens to burn.
+
+reference : Optional field allows callers to provide a reference, which the recipient can then use to relate the transaction to an order number, invoice number etc. The reference is be a 64-bit unsigned integer in the range of 0 to 18446744073709551615
+Results:
+Return value JSON object:
+
+{  
+    "success": true,  
+    "address": "8BfLgEprhbHs82LxUkJR9jhQufRZf49g73Nt8XTGevfiyy7ijhb",  
+    "txid": "01854fe4fdf0d59aebb3a880141484f0542af061cbebfd468db3fcecd13f63a986d990cf669ca4a60822a82b2d4fc7e7e474801a01bff86a35fd0a147a5a62da"  
+}
+
+Return values:
+
+success : Boolean flag indicating that the debit was successful.
+
+address : The register address for this account. The address (or name that hashes to this address) is needed when creating crediting or debiting the account.
+
+txid : The hash of the transaction that was generated for this tx. If using -autotx this field will be omitted.
+get
+
+Retrieves information for a single object for a type specified by the noun
+
+finance/get/noun
+
+This command supports the account, trust and token nouns.
+get/account
+
+Retrieves information for a specified NXS or token account.
+get/trust
+
+Retrieves information for a specified trust account.
+get/token
+
+Retrieves information for a specified token address.
+Parameters:
+
+session : Required by argument -multiuser=1 to be supplied to identify the user session. For single-user API mode the session should not be supplied.
+
+name : Required to identify the name of the account / trust / token. This is optional if the address is provided.
+
+address : Required to identify the register address of the account / trust / token. This is optional if the name is provided.
+
+Sorting.
+
+Filtering.
+Results:
+Return value JSON object:
+
+{  
+    "owner": "b1b5b4f4197548886016586f95735f0cb8235183a9185b8720bd27502a2e2850",  
+    "version": 1,  
+    "created": 1638020495,  
+    "modified": 1655118914,  
+    "type": "OBJECT",  
+    "balance": 300.536104,  
+    "stake": 15000.0,  
+    "token": "0",  
+    "ticker": "NXS",  
+    "trust": 3399813,  
+    "age": "39 days, 8 hours, 23 minutes",  
+    "rate": 3.0,  
+    "address": "8EunQ82qVdnuQkX2gXKZr5P55kQRz4KbpaLdCVBjBNu8jeys4C4"  
+}

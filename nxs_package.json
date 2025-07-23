@@ -1,0 +1,16 @@
+
+{
+  "name": "carbon_credits_marketplace",
+  "displayName": "Carbon Credits Marketplace",
+  "version": "1.0.0",
+  "targetWalletVersion": "3.2.0",
+  "description": "A modern, dark-themed P2P Carbon Credits Marketplace built on Nexus Protocol with beautiful UI/UX for trading verified carbon credits",
+  "type": "app",
+  "entry": "dist/index.html",
+  "icon": "dist/react.svg",
+  "files": ["dist/index.html", "dist/react.svg", "dist/js/app.js"],
+  "author": {
+    "name": "Carbon Credits Dev Team",
+    "email": "dev@carboncredits.nexus"
+  }
+}

@@ -1,0 +1,9 @@
+
+{
+  "name": "_dev_carbon_credits_marketplace",
+  "displayName": "Carbon Credits Marketplace Development",
+  "description": "A modern, dark-themed P2P Carbon Credits Marketplace built on Nexus Protocol with beautiful UI/UX for trading verified carbon credits",
+  "type": "app",
+  "entry": "http://localhost:24011/dev.html",
+  "icon": "dist/react.svg"
+}
