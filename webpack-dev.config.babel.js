@@ -15,7 +15,7 @@ module.exports = {
     compress: true,
     headers: { 'Access-Control-Allow-Origin': '*' },
     static: {
-      directory: process.cwd(),
+      directory: path.resolve(__dirname),
       index: 'dev.html',
       watch: true,
     },
