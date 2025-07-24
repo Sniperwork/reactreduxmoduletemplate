@@ -23,6 +23,29 @@
 </head>
 <body>
     <div id="root"></div>
+    <script>
+        // Mock NEXUS object for development environment
+        window.NEXUS = {
+            utilities: {
+                onceInitialize: function(callback) {
+                    // Mock initialization - call callback immediately
+                    if (typeof callback === 'function') {
+                        callback();
+                    }
+                },
+                onWalletDataUpdated: function(callback) {
+                    // Mock wallet data update handler
+                    if (typeof callback === 'function') {
+                        // Call callback with mock data if needed
+                        callback();
+                    }
+                },
+                walletVersion: '1.0.0',
+                libraries: {},
+                components: {}
+            }
+        };
+    </script>
     <script src="http://localhost:24011/dist/js/app.js"></script>
 </body>
 </html>
