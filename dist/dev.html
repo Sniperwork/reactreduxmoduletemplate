@@ -8,6 +8,14 @@
   </head>
   <body>
     <div id="root"></div>
-    <script src="http://localhost:24011/app.js"></script>
+    <script>
+      // Mock NEXUS object for development
+      window.NEXUS = {
+        // Add basic mock properties and methods as needed
+        version: "1.0.0",
+        ready: true
+      };
+    </script>
+    <script src="http://localhost:24011/dist/js/app.js"></script>
   </body>
 </html>
